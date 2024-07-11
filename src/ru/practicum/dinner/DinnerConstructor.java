@@ -2,13 +2,18 @@ package ru.practicum.dinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class DinnerConstructor {
     HashMap<String, ArrayList<String>> dishesByTypes;
     ArrayList<String> typesOfRequiredDishes;
+    Random rand = new Random();
+
+    // helpers - to delete
     ArrayList<String> first = new ArrayList<>();
     ArrayList<String> second = new ArrayList<>();
     ArrayList<String> third = new ArrayList<>();
+
 
 
     public DinnerConstructor() {
@@ -30,6 +35,8 @@ public class DinnerConstructor {
 
     void generateDishesCombos(Integer numberOfCombos) {
         HashMap<String, ArrayList<String>> dishesCombos = new HashMap<>();
+
+        // helpers - to delete
         first.add("Суп");
         first.add("Борщ");
         first.add("Солянка");
@@ -39,18 +46,16 @@ public class DinnerConstructor {
         third.add("Сок");
         third.add("Чай");
         third.add("Кофе");
-
         dishesByTypes.put("Первое", first);
         dishesByTypes.put("Второе", second);
         dishesByTypes.put("Напиток", third);
 
         for (int i = 0; i < numberOfCombos; i++) {
-            ArrayList<String> dishes;
             ArrayList<String> randomDishes = new ArrayList<>();
             for (int j = 0; j < dishesByTypes.size(); j++) {
                 String typeOfRequiredDish = typesOfRequiredDishes.get(j);
-                dishes = dishesByTypes.get(typeOfRequiredDish);
-                String randomDish = dishes.get(generateRandomNumber(dishes.size()));
+                ArrayList<String> dishesInStock = dishesByTypes.get(typeOfRequiredDish);
+                String randomDish = dishesInStock.get(rand.nextInt(dishesInStock.size()));
                 randomDishes.add(randomDish);
             }
             dishesCombos.put("Комбо " + (i + 1), randomDishes);
@@ -58,15 +63,8 @@ public class DinnerConstructor {
         for (String dishesCombo : dishesCombos.keySet()) {
             ArrayList<String> combos = dishesCombos.get(dishesCombo);
             System.out.println(dishesCombo);
-            for (String combo : combos) {
-                System.out.println(combo);
-            }
+            System.out.println(combos);
         }
-    }
-
-    Integer generateRandomNumber(Integer max) {
-//        return (int) Math.round(Math.random() * max);
-        return (int) Math.round(Math.random() * max);
     }
 
     boolean checkType(String dishType) {
