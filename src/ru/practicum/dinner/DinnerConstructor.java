@@ -14,8 +14,6 @@ public class DinnerConstructor {
     ArrayList<String> second = new ArrayList<>();
     ArrayList<String> third = new ArrayList<>();
 
-
-
     public DinnerConstructor() {
         dishesByTypes = new HashMap<>();
         typesOfRequiredDishes = new ArrayList<>();
@@ -34,7 +32,7 @@ public class DinnerConstructor {
     }
 
     void generateDishesCombos(Integer numberOfCombos) {
-        HashMap<String, ArrayList<String>> dishesCombos = new HashMap<>();
+        HashMap<Integer, ArrayList<String>> dishesCombos = new HashMap<>();
 
         // helpers - to delete
         first.add("Суп");
@@ -58,13 +56,14 @@ public class DinnerConstructor {
                 String randomDish = dishesInStock.get(rand.nextInt(dishesInStock.size()));
                 randomDishes.add(randomDish);
             }
-            dishesCombos.put("Комбо " + (i + 1), randomDishes);
+            dishesCombos.put(i, randomDishes);
         }
-        for (String dishesCombo : dishesCombos.keySet()) {
-            ArrayList<String> combos = dishesCombos.get(dishesCombo);
-            System.out.println(dishesCombo);
-            System.out.println(combos);
+
+        for (int i = 1; i <= numberOfCombos; i++) {
+            System.out.println("Комбо " + i);
+            System.out.println(dishesCombos.get(i - 1));
         }
+
     }
 
     boolean checkType(String dishType) {
