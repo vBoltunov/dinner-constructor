@@ -10,11 +10,6 @@ public class DinnerConstructor {
     ArrayList<String> requestedTypesOfDishes;
     Random randomDishIndex = new Random();
 
-    // helpers - to delete
-    /*ArrayList<String> first = new ArrayList<>();
-    ArrayList<String> second = new ArrayList<>();
-    ArrayList<String> third = new ArrayList<>();*/
-
     public DinnerConstructor() {
         dishesInStockByTypes = new HashMap<>();
         requestedTypesOfDishes = new ArrayList<>();
@@ -22,7 +17,7 @@ public class DinnerConstructor {
     }
 
     void addDishesByType(String dishType, String dishName) {
-        if (checkType(dishType)) {
+        if (isDishTypeExist(dishType)) {
             ArrayList<String> dishes = dishesInStockByTypes.get(dishType);
             dishes.add(dishName);
 
@@ -31,22 +26,6 @@ public class DinnerConstructor {
             dishes.add(dishName);
             dishesInStockByTypes.put(dishType, dishes);
         }
-    }
-
-    void testDishes() {
-        // helpers - to delete
-        /*first.add("Суп");
-        first.add("Борщ");
-        first.add("Солянка");
-        second.add("Курица");
-        second.add("Мясо");
-        second.add("Плов");
-        third.add("Сок");
-        third.add("Чай");
-        third.add("Кофе");
-        dishesInStockByTypes.put("Первое", first);
-        dishesInStockByTypes.put("Второе", second);
-        dishesInStockByTypes.put("Напиток", third);*/
     }
 
     void generateDishesCombos(Integer numberOfCombos) {
@@ -80,7 +59,7 @@ public class DinnerConstructor {
         }
     }
 
-    boolean checkType(String dishType) {
+    boolean isDishTypeExist(String dishType) {
         return dishesInStockByTypes.containsKey(dishType);
     }
 }

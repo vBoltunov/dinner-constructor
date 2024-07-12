@@ -61,16 +61,12 @@ public class Main {
         System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). " +
                 "Для завершения ввода введите пустую строку");
 
-        // удалить
-//        dc.testDishes();
-
         System.out.println("Доступные типы блюд: " + dc.dishesInStockByTypes.keySet());
 
         String nextItem = scanner.nextLine();
 
-        //реализуйте ввод типов блюд
         while (!nextItem.isEmpty()) {
-            if (!dc.checkType(nextItem)) {
+            if (!dc.isDishTypeExist(nextItem)) {
                 System.out.println("Такого типа блюда пока нет!");
                 System.out.println("Доступные типы блюд: " + dc.dishesInStockByTypes.keySet());
             } else {
@@ -79,7 +75,7 @@ public class Main {
             nextItem = scanner.nextLine();
         }
 
-        // сгенерируйте комбинации блюд и выведите на экран
+        // генерируем комбинации блюд и выводим на экран
         dc.generateDishesCombos(numberOfCombos);
         dc.printDishesCombos();
     }
