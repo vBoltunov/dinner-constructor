@@ -6,6 +6,7 @@ public class Main {
 
     static DinnerConstructor dc;
     static Scanner scanner;
+    static int numberOfCombos;
 
     public static void main(String[] args) {
         dc = new DinnerConstructor();
@@ -49,20 +50,37 @@ public class Main {
         System.out.println("Начинаем конструировать обед...");
 
         System.out.println("Введите количество наборов, которые нужно сгенерировать:");
-        int numberOfCombos = scanner.nextInt();
+        String nextInput = scanner.next();
+        while (!dc.isInteger(nextInput)) {
+                System.out.print("Вы ввели не число! Попробуйте ещё раз: ");
+                nextInput = scanner.next();
+        }
+        numberOfCombos = Integer.parseInt(nextInput);
         scanner.nextLine();
 
         System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). " +
                 "Для завершения ввода введите пустую строку");
+
+        // удалить
+//        dc.testDishes();
+
+        System.out.println("Доступные типы блюд: " + dc.dishesInStockByTypes.keySet());
+
         String nextItem = scanner.nextLine();
 
         //реализуйте ввод типов блюд
         while (!nextItem.isEmpty()) {
-            dc.typesOfRequiredDishes.add(nextItem);
+            if (!dc.checkType(nextItem)) {
+                System.out.println("Такого типа блюда пока нет!");
+                System.out.println("Доступные типы блюд: " + dc.dishesInStockByTypes.keySet());
+            } else {
+                dc.requestedTypesOfDishes.add(nextItem);
+            }
             nextItem = scanner.nextLine();
         }
 
         // сгенерируйте комбинации блюд и выведите на экран
         dc.generateDishesCombos(numberOfCombos);
+        dc.printDishesCombos();
     }
 }

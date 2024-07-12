@@ -5,37 +5,37 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class DinnerConstructor {
-    HashMap<String, ArrayList<String>> dishesByTypes;
-    ArrayList<String> typesOfRequiredDishes;
-    Random rand = new Random();
+    HashMap<String, ArrayList<String>> dishesInStockByTypes;
+    ArrayList<ArrayList<String>> dishesCombos;
+    ArrayList<String> requestedTypesOfDishes;
+    Random randomDishIndex = new Random();
 
     // helpers - to delete
-    ArrayList<String> first = new ArrayList<>();
+    /*ArrayList<String> first = new ArrayList<>();
     ArrayList<String> second = new ArrayList<>();
-    ArrayList<String> third = new ArrayList<>();
+    ArrayList<String> third = new ArrayList<>();*/
 
     public DinnerConstructor() {
-        dishesByTypes = new HashMap<>();
-        typesOfRequiredDishes = new ArrayList<>();
+        dishesInStockByTypes = new HashMap<>();
+        requestedTypesOfDishes = new ArrayList<>();
+        dishesCombos = new ArrayList<>();
     }
 
     void addDishesByType(String dishType, String dishName) {
         if (checkType(dishType)) {
-            ArrayList<String> dishes = dishesByTypes.get(dishType);
+            ArrayList<String> dishes = dishesInStockByTypes.get(dishType);
             dishes.add(dishName);
 
         } else {
             ArrayList<String> dishes = new ArrayList<>();
             dishes.add(dishName);
-            dishesByTypes.put(dishType, dishes);
+            dishesInStockByTypes.put(dishType, dishes);
         }
     }
 
-    void generateDishesCombos(Integer numberOfCombos) {
-        HashMap<Integer, ArrayList<String>> dishesCombos = new HashMap<>();
-
+    void testDishes() {
         // helpers - to delete
-        first.add("Суп");
+        /*first.add("Суп");
         first.add("Борщ");
         first.add("Солянка");
         second.add("Курица");
@@ -44,29 +44,43 @@ public class DinnerConstructor {
         third.add("Сок");
         third.add("Чай");
         third.add("Кофе");
-        dishesByTypes.put("Первое", first);
-        dishesByTypes.put("Второе", second);
-        dishesByTypes.put("Напиток", third);
+        dishesInStockByTypes.put("Первое", first);
+        dishesInStockByTypes.put("Второе", second);
+        dishesInStockByTypes.put("Напиток", third);*/
+    }
+
+    void generateDishesCombos(Integer numberOfCombos) {
 
         for (int i = 0; i < numberOfCombos; i++) {
-            ArrayList<String> randomDishes = new ArrayList<>();
-            for (int j = 0; j < dishesByTypes.size(); j++) {
-                String typeOfRequiredDish = typesOfRequiredDishes.get(j);
-                ArrayList<String> dishesInStock = dishesByTypes.get(typeOfRequiredDish);
-                String randomDish = dishesInStock.get(rand.nextInt(dishesInStock.size()));
-                randomDishes.add(randomDish);
+            ArrayList<String> comboOfRandomDishes = new ArrayList<>();
+            for (String typeOfRequiredDish : requestedTypesOfDishes) {
+                ArrayList<String> dishesInStock = dishesInStockByTypes.get(typeOfRequiredDish);
+                String randomDish = dishesInStock.get(randomDishIndex.nextInt(dishesInStock.size()));
+                comboOfRandomDishes.add(randomDish);
             }
-            dishesCombos.put(i, randomDishes);
+            dishesCombos.add(i, comboOfRandomDishes);
         }
+    }
 
-        for (int i = 1; i <= numberOfCombos; i++) {
-            System.out.println("Комбо " + i);
-            System.out.println(dishesCombos.get(i - 1));
+    void printDishesCombos() {
+        System.out.println("Мы можем предложить вам следующие комбо из выбранных типов блюд:");
+        for (int i = 0; i < dishesCombos.size(); i++) {
+            System.out.println("Комбо " + (i + 1));
+            System.out.println(dishesCombos.get(i));
         }
+        System.out.println();
+    }
 
+    boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     boolean checkType(String dishType) {
-        return dishesByTypes.containsKey(dishType);
+        return dishesInStockByTypes.containsKey(dishType);
     }
 }
